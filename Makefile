@@ -56,7 +56,7 @@ install-remote		:	all
 	  --include=*.mp4 \
 	  --exclude=* \
 	  . transientscu-services:/usr/local/var/www/ratir/html
-	  
+
 install-local       :   all
     rsync -v --chmod=u=rwX,go=rX \
 	  ratir.conf /etc/apache2/sites-enabled/
