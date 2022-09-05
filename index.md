@@ -40,3 +40,5 @@ and was lead by:
 *   Alan Watson (UNAM &#8212; telescope principal investigator).
 
 RATIR benefited from the generous loan of a H2RG detector by Teledyne Scientific and Imaging.
+
+Last update: 2022 September 5
