@@ -1,6 +1,5 @@
 # This file is generated automatically. Do not edit manually.
 index.html: ./index.md $(EXTRA_HTML_DEPENDENCIES)
-status.html: ./status.md $(EXTRA_HTML_DEPENDENCIES)
 telescope.html: ./telescope.md $(EXTRA_HTML_DEPENDENCIES)
 instrument.html: ./instrument.md $(EXTRA_HTML_DEPENDENCIES)
 acknowledgements.html: ./acknowledgements.md $(EXTRA_HTML_DEPENDENCIES)

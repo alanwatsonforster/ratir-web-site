@@ -25,7 +25,6 @@
 
 HTMLS 			=	        \
     index.html              \
-	status.html             \
 	telescope.html          \
 	instrument.html         \
 	acknowledgements.html   \
