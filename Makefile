@@ -41,25 +41,15 @@ EXTRA_HTML_DEPENDENCIES = HEADER.md FOOTER.md *.meta
 
 all: $(HTMLS)
 
-install-remote: all
-	rsync -v --chmod=u=rwX,go=rX \
-	  ratir.conf transientscu-services:/etc/apache2/sites-enabled/
-	rsync -ahv --chmod=u=rwX,go=rX --delete \
-	  --exclude=.git/ \
-	  --include=./ \
-	  --include=*/ \
-	  --include=*.html \
-	  --include=*.pdf \
-	  --include=*.jpg \
-	  --include=*.png \
-	  --include=*.css \
-	  --include=*.mp4 \
-	  --exclude=* \
-	  . transientscu-services:/usr/local/var/www/ratir/html
+install-remote:
+	RSYNC_PREFIX=transientscu-services: make install-with-prefix
 
-install-local: all
+install-local:
+	RSYNC_PREFIX="" make install-with-prefix
+
+install-with-prefix: all
 	rsync -v --chmod=u=rwX,go=rX \
-	  ratir.conf /etc/apache2/sites-enabled/
+	  ratir.conf $$RSYNC_PREFIX/etc/apache2/sites-enabled/
 	rsync -ahv --chmod=u=rwX,go=rX --delete \
 	  --exclude=.git/ \
 	  --include=./ \
@@ -71,7 +61,7 @@ install-local: all
 	  --include=*.css \
 	  --include=*.mp4 \
 	  --exclude=* \
-	  . /usr/local/var/www/ratir/html
+	  . $$RSYNC_PREFIX/usr/local/var/www/ratir/html
 
 ########################################################################
 
