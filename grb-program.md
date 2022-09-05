@@ -1,5 +1,9 @@
 # RATIR: GRB Program
 
+*Note: RATIR was removed from the telescope in June 2022.*
+
+<hr/>
+
 RATIR has an observational program directed at observations of GRBs and associated phenomena. 
 
 Initial results are typically published as GCN Circulars, with more refereed publications following later.

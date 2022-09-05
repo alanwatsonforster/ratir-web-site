@@ -1,6 +1,6 @@
 # RATIR
 
-RATIR was a dedicated multi-channel optical and infrared imager for the robotic 1.5-meter Johnson telescope at the [Observatory Astronómico Nacional](http://www.astrossp.unam.mx/) in Mexico. It was installed from 2012 to 2022.
+RATIR was a dedicated multi-channel optical and infrared imager for the robotic 1.5-meter Johnson telescope at the [Observatory Astronómico Nacional](http://www.astrossp.unam.mx/) in Mexico. It was installed continuously from April 2012 to June 2022 and operated every night, subject to weather, engineering, and operational constaints.
 
 RATIR was designed for follow-up observations of the afterglows of [gamma-ray bursts](https://en.wikipedia.org/wiki/Gamma-ray_burst) (GRBs) detected by the [Neil Gehrels Swift Observatory](http://en.wikipedia.org/wiki/Swift_Gamma-Ray_Burst_Mission), but is also used for other science.
 

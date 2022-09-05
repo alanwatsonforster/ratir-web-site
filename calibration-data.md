@@ -1,5 +1,8 @@
 # RATIR: Calibration Data
 
+*Note: RATIR was removed from the telescope in June 2022.*
+
+<hr/>
 Calibration data are taken most nights, as the weather and schedule permit.
 
 ## Biases

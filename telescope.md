@@ -1,5 +1,8 @@
 # RATIR: Telescope and Mount
 
+*Note: RATIR was removed from the telescope in June 2022.*
+
+<hr/>
 
 <a href="gallery.html"><img src="gallery/20160221T015149-small.jpg" style="width: 60%;"/></a>
 

@@ -1,5 +1,9 @@
 # RATIR: Participants
 
+*Note: RATIR was removed from the telescope in June 2022.*
+
+<hr/>
+
 <p>RATIR is lead by:</p>
 
 <ul>
