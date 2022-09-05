@@ -23,25 +23,25 @@
 
 ########################################################################
 
-HTMLS 			=	        \
-    index.html              \
-	telescope.html          \
-	instrument.html         \
-	acknowledgements.html   \
-	data-archive.html       \
-	calibration-data.html   \
-	grb-program.html        \
-	gallery.html            \
-	participants.html       \
-	publications.html       \
-	contact.html            \
-	search.html             \
+HTMLS =	                  \
+  index.html              \
+  telescope.html          \
+  instrument.html         \
+  acknowledgements.html   \
+  data-archive.html       \
+  calibration-data.html   \
+  grb-program.html        \
+  gallery.html            \
+  participants.html       \
+  publications.html       \
+  contact.html            \
+  search.html             \
 
-EXTRA_HTML_DEPENDENCIES	=	HEADER.md FOOTER.md *.meta
+EXTRA_HTML_DEPENDENCIES = HEADER.md FOOTER.md *.meta
 
-all			        : 	$(HTMLS)
+all: $(HTMLS)
 
-install-remote		:	all
+install-remote: all
 	rsync -v --chmod=u=rwX,go=rX \
 	  ratir.conf transientscu-services:/etc/apache2/sites-enabled/
 	rsync -ahv --chmod=u=rwX,go=rX --delete \
@@ -57,8 +57,8 @@ install-remote		:	all
 	  --exclude=* \
 	  . transientscu-services:/usr/local/var/www/ratir/html
 
-install-local       :   all
-    rsync -v --chmod=u=rwX,go=rX \
+install-local: all
+	rsync -v --chmod=u=rwX,go=rX \
 	  ratir.conf /etc/apache2/sites-enabled/
 	rsync -ahv --chmod=u=rwX,go=rX --delete \
 	  --exclude=.git/ \
@@ -75,6 +75,6 @@ install-local       :   all
 
 ########################################################################
 
-TOOLSDIR	=	./tools
+TOOLSDIR = ./tools
 include $(TOOLSDIR)/Makefile.tools
 include ./Makefile.dependencies
