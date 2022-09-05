@@ -39,4 +39,6 @@
 
 We include papers and theses that use RATIR data that were either previously unpublished or previously published only in GCN Circulars.
 
+<hr/>
+
 Last update: 2022 September 5
