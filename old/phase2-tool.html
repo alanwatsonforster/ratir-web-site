@@ -1,0 +1,276 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link rel="stylesheet" href="style.css" type="text/css"/>
+<meta name=viewport content="width=device-width, initial-scale=1">
+<title>
+RATIR: Phase 2 Tool
+</title>
+</head>
+<body>
+<div id="header">
+<p><a href="/index.html">Home</a> | <a href="/contact.html">Contact</a> | <a href="/search.html">Search</a></p>
+<hr/>
+<h1>RATIR: Phase 2 Tool</h1>
+<hr/>
+</div>
+<div id="main">
+<p>The Phase 2 Tool can check visit descriptions written in the <a href="phase2-visit-description-language.html">Phase 2 Visit Description Language</a>.</p>
+
+<ul>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#use">Use</a></li>
+<li><a href="#help">Help</a></li>
+<li><a href="#example">Example</a></li>
+</ul>
+
+<p><hr/>
+<a name="prerequisites"/></p>
+
+<h2>Prerequisites</h2>
+
+<p>The Phase 2 Tool is an executable Tcl script, so tclsh needs to be installed. To determine if tclsh is installed, run:</p>
+
+<pre><code>which tclsh
+</code></pre>
+
+<p>The script works with Tcl 8.5 and Tcl 8.6; some problems have been encountered with Tcl 8.4. To determine which version of Tcl you have, run:</p>
+
+<pre><code>echo "puts [info tclversion]" | tclsh
+</code></pre>
+
+<p>You also need to have the <a href="http://tcllib.sourceforge.net/">tcllib</a> <a href="http://tcllib.sourceforge.net/doc/json.html">JSON package</a> installed. On many systems this is installed by default. To test if you have this package, run:</p>
+
+<pre><code>echo "package require json" | tclsh
+</code></pre>
+
+<p>If this prints nothing, the package is installed. If it prints &#8220;can&#8217;t find package json&#8221;, you do not.</p>
+
+<h3>MacOS</h3>
+
+<p>The Phase 2 Tool is known to work &#8220;out of the box&#8221; on at least Mac OS X versions 10.6 (Snow Leopard), 10.7 (Lion), 10.8 (Mountain Lion), and 10.9 (Mavericks).</p>
+
+<h3>Debian or Ubuntu</h3>
+
+<p>Install tcl and tcllib by running:</p>
+
+<pre><code>sudo apt-get install tcl8.5 tcllib
+</code></pre>
+
+<p><hr/>
+<a name="installation"/></p>
+
+<h2>Installation</h2>
+
+<p>Download the file &#8220;phase2&#8221;:</p>
+
+<ul>
+<li><a href="http://ratir.astroscu.unam.mx/phase2">phase2</a></li>
+</ul>
+
+<p>The latest version is r2509 of 2015-09-23 02:18:11Z.</p>
+
+<p>Copy the file &#8220;phase2&#8221; to a directory in your path.</p>
+
+<p><hr/>
+<a name="use"/></p>
+
+<h2>Use</h2>
+
+<p>By default, the Phase 2 Tool reads a visit description on stdin and checks it. If the input is valid, the tool writes no output and exits with status 0. If the input is invalid, the tool writes an error message to stderr and exits with status 1.</p>
+
+<p>The following options are available:</p>
+
+<ul>
+<li><p>-V or &#8212;version</p>
+
+<p>Write the tool version to stderr and exit with status 0.</p></li>
+<li><p>-? or &#8212;help</p>
+
+<p>Write a summary of the options to stderr and exit with status 0.</p></li>
+<li><p>-v or &#8212;verbose</p>
+
+<p>Write a log of the progress to stderr, in addition to any error message.</p></li>
+<li><p>-e or &#8212;emit</p>
+
+<p>Emit a visit files for each visit with names of the form &#8220;<proposalidentifier>-<visitidentifier>&#8221;. This is for team use only.</p></li>
+</ul>
+
+<p><hr/>
+<a name="help"/></p>
+
+<h2>Help</h2>
+
+<p>For help with the Phase 2 Tool, please contact Alan Watson (<a href="mailto:alana@astro.unam.mx">alan@astro.unam.mx</a>).</p>
+
+<p><hr/>
+<a name="example"/></p>
+
+<h2>Example</h2>
+
+<pre><code>$ cat example.json
+// Example 1.
+[
+{
+  "languageversion"    : "20120606",
+  "proposalidentifier" : "1",
+  "visitidentifier"    : "1",
+  "preparationdate"    : "20120607",
+  "targetcoordinates"  : {
+    "type"             : "equatorial",
+    "alpha"            : "01:02:03.04",
+    "delta"            : "+05:06:07.08",
+    "equinox"          : 2000
+  },
+  "exposures"          : [
+    ["riZJcenter",   "0as",   "0as", "finder", "r", 60, 60, 60, 60],
+    ["riYHcenter",   "0as",   "0as", "finder", "r", 60, 60, 60, 60],
+    ["riZJcenter",   "0as", "+10as", "finder", "r", 60, 60, 60, 60],
+    ["riYHcenter",   "0as", "+10as", "finder", "r", 60, 60, 60, 60],
+    ["riZJcenter",   "0as", "-10as", "finder", "r", 60, 60, 60, 60],
+    ["riYHcenter",   "0as", "-10as", "finder", "r", 60, 60, 60, 60],
+    ["riZJcenter", "+10as",   "0as", "finder", "r", 60, 60, 60, 60],
+    ["riYHcenter", "+10as",   "0as", "finder", "r", 60, 60, 60, 60],
+    ["riZJcenter", "-10as",   "0as", "finder", "r", 60, 60, 60, 60],
+    ["riYHcenter", "-10as",   "0as", "finder", "r", 60, 60, 60, 60]
+  ]
+}
+]
+$ phase2 -v &lt;example.json
+info: $Id: phase2 1844 2012-10-19 01:48:03Z alan $
+info: visit description 1: checking.
+info: visit description 1: checking obligatory pairs are present.
+info: visit description 1: checking all pairs have valid names.
+info: visit description 1: languageversion: checking "20120606".
+info: visit description 1: proposalidentifier: checking "1".
+info: visit description 1: visitidentifier: checking "1".
+info: visit description 1: preparationdate: checking "20120607".
+info: visit description 1: pointingcorrection: using default value "finder".
+info: visit description 1: pointingcorrection: checking "finder".
+info: visit description 1: targetcoordinates: checking obligatory pairs are present.
+info: visit description 1: targetcoordinates: checking all pairs have valid names.
+info: visit description 1: targetcoordinates: type: checking "equatorial".
+info: visit description 1: targetcoordinates: alpha: checking "01:02:03.04".
+info: visit description 1: targetcoordinates: delta: checking "+05:06:07.08".
+info: visit description 1: targetcoordinates: equinox: checking "2000".
+info: visit description 1: exposures: exposure 1: aperture: checking "riZJcenter".
+info: visit description 1: exposures: exposure 1: eastoffset: checking "0as".
+info: visit description 1: exposures: exposure 1: northoffset: checking "0as".
+info: visit description 1: exposures: exposure 1: guidingmode: checking "finder".
+info: visit description 1: exposures: exposure 1: filter: checking "r".
+info: visit description 1: exposures: exposure 1: r-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 1: i-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 1: ZY-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 1: JH-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 2: aperture: checking "riYHcenter".
+info: visit description 1: exposures: exposure 2: eastoffset: checking "0as".
+info: visit description 1: exposures: exposure 2: northoffset: checking "0as".
+info: visit description 1: exposures: exposure 2: guidingmode: checking "finder".
+info: visit description 1: exposures: exposure 2: filter: checking "r".
+info: visit description 1: exposures: exposure 2: r-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 2: i-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 2: ZY-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 2: JH-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 3: aperture: checking "riZJcenter".
+info: visit description 1: exposures: exposure 3: eastoffset: checking "0as".
+info: visit description 1: exposures: exposure 3: northoffset: checking "+10as".
+info: visit description 1: exposures: exposure 3: guidingmode: checking "finder".
+info: visit description 1: exposures: exposure 3: filter: checking "r".
+info: visit description 1: exposures: exposure 3: r-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 3: i-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 3: ZY-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 3: JH-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 4: aperture: checking "riYHcenter".
+info: visit description 1: exposures: exposure 4: eastoffset: checking "0as".
+info: visit description 1: exposures: exposure 4: northoffset: checking "+10as".
+info: visit description 1: exposures: exposure 4: guidingmode: checking "finder".
+info: visit description 1: exposures: exposure 4: filter: checking "r".
+info: visit description 1: exposures: exposure 4: r-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 4: i-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 4: ZY-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 4: JH-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 5: aperture: checking "riZJcenter".
+info: visit description 1: exposures: exposure 5: eastoffset: checking "0as".
+info: visit description 1: exposures: exposure 5: northoffset: checking "-10as".
+info: visit description 1: exposures: exposure 5: guidingmode: checking "finder".
+info: visit description 1: exposures: exposure 5: filter: checking "r".
+info: visit description 1: exposures: exposure 5: r-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 5: i-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 5: ZY-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 5: JH-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 6: aperture: checking "riYHcenter".
+info: visit description 1: exposures: exposure 6: eastoffset: checking "0as".
+info: visit description 1: exposures: exposure 6: northoffset: checking "-10as".
+info: visit description 1: exposures: exposure 6: guidingmode: checking "finder".
+info: visit description 1: exposures: exposure 6: filter: checking "r".
+info: visit description 1: exposures: exposure 6: r-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 6: i-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 6: ZY-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 6: JH-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 7: aperture: checking "riZJcenter".
+info: visit description 1: exposures: exposure 7: eastoffset: checking "+10as".
+info: visit description 1: exposures: exposure 7: northoffset: checking "0as".
+info: visit description 1: exposures: exposure 7: guidingmode: checking "finder".
+info: visit description 1: exposures: exposure 7: filter: checking "r".
+info: visit description 1: exposures: exposure 7: r-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 7: i-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 7: ZY-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 7: JH-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 8: aperture: checking "riYHcenter".
+info: visit description 1: exposures: exposure 8: eastoffset: checking "+10as".
+info: visit description 1: exposures: exposure 8: northoffset: checking "0as".
+info: visit description 1: exposures: exposure 8: guidingmode: checking "finder".
+info: visit description 1: exposures: exposure 8: filter: checking "r".
+info: visit description 1: exposures: exposure 8: r-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 8: i-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 8: ZY-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 8: JH-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 9: aperture: checking "riZJcenter".
+info: visit description 1: exposures: exposure 9: eastoffset: checking "-10as".
+info: visit description 1: exposures: exposure 9: northoffset: checking "0as".
+info: visit description 1: exposures: exposure 9: guidingmode: checking "finder".
+info: visit description 1: exposures: exposure 9: filter: checking "r".
+info: visit description 1: exposures: exposure 9: r-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 9: i-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 9: ZY-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 9: JH-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 10: aperture: checking "riYHcenter".
+info: visit description 1: exposures: exposure 10: eastoffset: checking "-10as".
+info: visit description 1: exposures: exposure 10: northoffset: checking "0as".
+info: visit description 1: exposures: exposure 10: guidingmode: checking "finder".
+info: visit description 1: exposures: exposure 10: filter: checking "r".
+info: visit description 1: exposures: exposure 10: r-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 10: i-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 10: ZY-exposuretime: checking "60".
+info: visit description 1: exposures: exposure 10: JH-exposuretime: checking "60".
+info: visit description 1: visitname: using default value "".
+info: visit description 1: visitname: checking "".
+info: visit description 1: constraints: using default value "".
+info: visit description 1: constraints: checking obligatory pairs are present.
+info: visit description 1: constraints: checking all pairs have valid names.
+info: visit description 1: constraints: maxskybrightness: using default value "bright".
+info: visit description 1: constraints: maxskybrightness: checking "bright".
+info: visit description 1: constraints: skytransparency: using default value "any".
+info: visit description 1: constraints: skytransparency: checking "any".
+info: visit description 1: constraints: mindate: using default value "20120607".
+info: visit description 1: constraints: mindate: checking "20120607".
+info: visit description 1: constraints: maxdate: using default value "20130607".
+info: visit description 1: constraints: maxdate: checking "20130607".
+info: visit description 1: constraints: maxairmass: using default value "2".
+info: visit description 1: constraints: maxairmass: checking "2".
+info: visit description 1: constraints: minha: using default value "-5.5h".
+info: visit description 1: constraints: minha: checking "-5.5h".
+info: visit description 1: constraints: maxha: using default value "+5.5h".
+info: visit description 1: constraints: maxha: checking "+5.5h".
+</code></pre>
+</div>
+<div id="footer">
+<hr/>
+<p><a href="/index.html">Home</a> | <a href="/contact.html">Contact</a> | <a href="/search.html">Search</a></p>
+
+<p>Copyright © 2012-2020 <a href="mailto:alan@astro.unam.mx">Alan M. Watson</a>.</p>
+</div>
+</body>
+</html>

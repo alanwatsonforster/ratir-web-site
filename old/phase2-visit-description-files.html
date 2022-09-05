@@ -1,0 +1,897 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link rel="stylesheet" href="style.css" type="text/css"/>
+<meta name=viewport content="width=device-width, initial-scale=1">
+<title>
+RATIR: Phase 2 Visit Description Files
+</title>
+</head>
+<body>
+<div id="header">
+<p><a href="/index.html">Home</a> | <a href="/contact.html">Contact</a> | <a href="/search.html">Search</a></p>
+<hr/>
+<h1>RATIR: Phase 2 Visit Description Files</h1>
+<hr/>
+</div>
+<div id="main">
+<p>This page documents the RATIR <a href="phase2.html">Phase 2</a> Visit Description Files. </p>
+
+<ul>
+<li><a href="#visit-description-files">Visit Description Files</a>
+<ul>
+<li><a href="#encoding">Encoding</a></li>
+<li><a href="#representation">Representation</a></li>
+</ul></li>
+<li><a href="#angles-and-dates">Angles and Dates</a>
+<ul>
+<li><a href="#angles">Angles</a></li>
+<li><a href="#dates">Dates</a></li>
+</ul></li>
+<li><a href="#visit-descriptions">Visit Descriptions</a>
+<ul>
+<li><a href="#languageversion">&lt;languageversion&gt;</a></li>
+<li><a href="#proposalidentifier">&lt;proposalidentifier&gt;</a></li>
+<li><a href="#visitidentifier">&lt;visitidentifier&gt;</a></li>
+<li><a href="#preparationdate">&lt;preparationdate&gt;</a></li>
+<li><a href="#objectname">&lt;objectname&gt;</a></li>
+<li><a href="#visitname">&lt;visitname&gt;</a></li>
+<li><a href="#pointingcorrection">&lt;pointingcorrection&gt;</a></li>
+<li><a href="#targetcoordinates">&lt;targetcoordinates&gt;</a></li>
+<li><a href="#constraints">&lt;constraints&gt;</a></li>
+<li><a href="#secondaryoffset">&lt;secondaryoffset&gt;</a></li>
+<li><a href="#repeatexposures">&lt;repeatexposures&gt;</a></li>
+<li><a href="#exposures">&lt;exposures&gt;</a></li>
+</ul></li>
+<li><a href="#examples">Examples</a>
+<ul>
+<li><a href="#example-1">Example 1</a></li>
+<li><a href="#example-2">Example 2</a></li>
+<li><a href="#example-3">Example 3</a></li>
+<li><a href="#example-4">Example 4</a></li>
+</ul></li>
+</ul>
+
+<hr/>
+
+<p><a name="visit-description-files"/></p>
+
+<h2>Visit Description Files</h2>
+
+<p>The aim of Phase 2 of the proposal process is to produce &#8220;visit description files&#8221;, one or more for each proposal, that describe the visits that should be carried out. Visit description files are written in the &#8220;visit description language&#8221; documented here.</p>
+
+<p><a name="encoding"/></p>
+
+<h3>Encoding</h3>
+
+<p>Visit description files should be encoded in UTF-8. ASCII is a subset of UTF-8, but ISO-8859-1 &#8220;Latin-1&#8221; is not.</p>
+
+<p><a name="representation"/></p>
+
+<h3>Representation</h3>
+
+<p>Information in visit descriptions files is represented using <a href="http://www.json.org">JSON</a>. 
+JSON has a simple and regular syntax
+that is easy for humans to write, easy for computers to parse, and should seem
+familiar to C, C++, and JavaScript programmers. </p>
+
+<p>JSON can be described formally in about a
+page of text, but it should be possible to write visit descriptions simply by reading this document and adapting the
+examples.</p>
+
+<p>The syntax of JSON in visit description files is extended to accept comment lines wherever white-space can appear in
+strict JSON. A comment line is a line that begins with zero or more space and horizontal tab characters followed by
+two slash characters (&#8220;!//&#8221;). Comment lines are treated as if they were empty lines. Other types of comments (e.g.,
+block comments introduced by &#8220;/*&#8221; and terminated by &#8220;*/&#8221;) are not allowed.</p>
+
+<p>The syntax of visit description files is formally a (very limited) subset of JavaScript. Therefore, if you are
+preparing a visit description file manually, it might be useful to select an editing mode suitable for JavaScript.</p>
+
+<hr/>
+
+<p><a name="angles-and-dates"/></p>
+
+<h2>Angles and Dates</h2>
+
+<p><a name="angles"/></p>
+
+<h3>Angles</h3>
+
+<p>Angles in visit descriptions may be written as:</p>
+
+<ul>
+<li>numbers (and interpreted as decimal degrees);</li>
+<li>strings containing sexagesimal notation with colons as separators;</li>
+<li>strings containing a number with a unit prefix:
+<ul>
+<li>&#8220;r&#8221; for decimal radians;</li>
+<li>&#8220;h&#8221; for decimal hours;</li>
+<li>&#8220;d&#8221; for decimal degrees;</li>
+<li>&#8220;am&#8221; for decimal arcminutes; and</li>
+<li>&#8220;as&#8221; for decimal arcseconds.</li>
+</ul></li>
+</ul>
+
+<p>For hour angles and right ascensions, sexagesimal notation indicates hours, minutes, and seconds. For all other
+angles, including offsets, it indicates degrees, arcminutes, and arcseconds.</p>
+
+<p>Examples of valid angles are:</p>
+
+<pre><code> -22.5              // -22.5 degrees.
+ "-01:30:00"        // -1.5 hours or -1.5 degrees, depending on the context.
+ "0.5r"             // 0.5 radians
+ "-1.5h"            // -1.5 hours
+ "-22.5d"           // -22.5 degrees
+ "5am"              // 5 arcminutes
+ "-20as"            // -20 arcseconds
+</code></pre>
+
+<p><a name="dates"/></p>
+
+<h3>Dates</h3>
+
+<p>Dates in visit descriptions are written as strings containing an <a href="http://en.wikipedia.org/wiki/ISO_8601">IS0-8601</a> basic date or basic combined date and time.
+The time zone is understood to be UTC; an explicit time zone must not be specified. The precision must not be
+specified more finely than seconds.</p>
+
+<p>Examples of valid dates are:</p>
+
+<pre><code> "20101117T223815"  // 2010 Nov 17 22:38:15 UTC
+ "20101117T2238"    // 2010 Nov 17 22:38:00 UTC
+ "20101117T22"      // 2010 Nov 17 22:00:00 UTC
+ "20101117"         // 2010 Nov 17 00:00:00 UTC
+</code></pre>
+
+<hr/>
+
+<p><a name="visit-descriptions"/></p>
+
+<h2>Visit Descriptions</h2>
+
+<p>Each visit description file should contain a JSON &#8220;array&#8221; of one or more visit description &#8220;objects&#8221;. </p>
+
+<p>Two examples of visit description files follow this paragraph. In the examples, these actual visit description objects are indicated by &lt;visitdescription&gt;; this will be defined below.</p>
+
+<pre><code> // This is a simple visit description file containing an array with a
+ // single visit description object. Note the square brackets used to
+ // delimit the array.
+ [ &amp;lt;visitdescription&amp;gt; ]
+
+ // This is a slightly more complex visit description file containing an
+ // array of three visit description objects. Note the square brackets
+ // used to delimit the array and the comma between the array elements.
+ // Note also that there is no comma after the final array element.
+ [
+ &amp;lt;visitdescription&amp;gt;,
+ &amp;lt;visitdescription&amp;gt;,
+ &amp;lt;visitdescription&amp;gt;
+ ]
+</code></pre>
+
+<p>Each &lt;visitdescription&gt; is a JSON &#8220;object&#8221;. The complete structure of a &lt;visitdescription&gt; object is:</p>
+
+<pre><code> {
+   "languageversion"    : &amp;lt;languageversion&amp;gt;,
+   "proposalidentifier" : &amp;lt;proposalidentifier&amp;gt;,
+   "visitidentifier"    : &amp;lt;visitidentifier&amp;gt;,
+   "preparationdate"    : &amp;lt;preparationdate&amp;gt;,
+   "visitname"          : &amp;lt;visitname&amp;gt;,
+   "pointingcorrection" : &amp;lt;pointingcorrection&amp;gt;,
+   "targetcoordinates"  : &amp;lt;targetcoordinates&amp;gt;,
+   "constraints"        : &amp;lt;constraints&amp;gt;,
+   "secondaryoffset"    : &amp;lt;secondaryoffset&amp;gt;,
+   "repeatexposures"    : &amp;lt;repeatexposures&amp;gt;,
+   "exposures"          : &amp;lt;exposures&amp;gt;
+ }
+</code></pre>
+
+<p>The &#8220;visitname&#8221;, &#8220;pointingcorrection&#8221;, and &#8220;constraints&#8221; members are optional. The other members are obligatory.</p>
+
+<p><a name="languageversion"/></p>
+
+<h3>&lt;languageversion&gt;</h3>
+
+<p>The &lt;languageversion&gt; value specifies which version of the visit description language should be used to interpret this
+visit description. Its presence allows changes to the visit description language but permits backwards
+compatibility.</p>
+
+<p>Syntactically, the &lt;languageversion&gt; value is a string. </p>
+
+<p>The language described by this document has a language version of:</p>
+
+<pre><code> "20140929"
+</code></pre>
+
+<p><a name="proposalidentifier"/></p>
+
+<h3>&lt;proposalidentifier&gt;</h3>
+
+<p>The &lt;proposalidentifier&gt; value is assigned by the CATT in a manner TBD.</p>
+
+<p>If two or more visit descriptions have the same proposal and <a href="#visitidentifier">visit</a> identifiers, they refer to the same visit. The
+<a href="#preparationdate">preparation date</a> is then used to determine which one is considered valid.</p>
+
+<p>Syntactically, the &lt;proposalidentifier&gt; value is a string.</p>
+
+<p><a name="visitidentifier"/></p>
+
+<h3>&lt;visitidentifier&gt;</h3>
+
+<p>The &lt;visitidentifier&gt; is determined by the observer.</p>
+
+<p>If two or more visit descriptions have the same <a href="#proposalidentifier">proposal</a> and visit identifiers, they refer to the same visit. The
+<a href="#preparationdate">preparation date</a> is then used to determine which one is considered valid.</p>
+
+<p>Syntactically, the &lt;visitidentifier&gt; value is a non-negative integer.</p>
+
+<p><a name="preparationdate"/></p>
+
+<h3>&lt;preparationdate&gt;</h3>
+
+<p>The &lt;preparationdate&gt; value specifies the date on which the visit description was prepared.</p>
+
+<p>If two or more visit descriptions have the same <a href="#proposalidentifier">proposal</a> and <a href="#visitidentifier">visit</a> identifiers, they refer to the same visit. The
+preparation dates are used to determine which, if any, is valid. If there is a single visit description with a
+preparation date that is later than the preparation date of all of the other visit descriptions referring to this
+visit, it is considered valid and all of the others are considered invalid. If not, all of the visit descriptions
+referring to this visit are considered invalid.</p>
+
+<p>Syntactically, the &lt;preparationdate&gt; value is a <a href="#Dates">date</a>.</p>
+
+<p><a name="objectname"/></p>
+
+<h3>&lt;objectname&gt;</h3>
+
+<p>The &lt;objectname&gt; value is chosen by the observer for their own convenience and has no significance for RATIR. The object
+name in FITS headers as the value associated with the OBJECT keyword.</p>
+
+<p>Syntactically, the &lt;objectname&gt; value is a string.</p>
+
+<p>The &lt;objectname&gt; member is optional. If no &lt;objectname&gt; member is specified, an empty name (&#8220;&#8221;) is assumed.</p>
+
+<p><a name="visitname"/></p>
+
+<h3>&lt;visitname&gt;</h3>
+
+<p>The &lt;visitname&gt; value is chosen by the observer for their own convenience and has no significance for RATIR. The visit
+name will appear in FITS headers as the value associated with the VISIT keyword. Different visits may share the same visit name.</p>
+
+<p>Syntactically, the &lt;visitname&gt; value is a string.</p>
+
+<p>The &lt;visitname&gt; member is optional. If no &lt;visitname&gt; member is specified, an empty name (&#8220;&#8221;) is assumed.</p>
+
+<p><a name="pointingcorrection"/></p>
+
+<h3>&lt;pointingcorrection&gt;</h3>
+
+<p>The &lt;pointingcorrection&gt; value specifies if and how the telescope pointing will be corrected after the slew to the target:</p>
+
+<p>Syntactically, the &lt;pointingcorrection&gt; value is a string. Valid values are:</p>
+
+<ul>
+<li>&#8220;none&#8221; - no correction is made.</li>
+<li>&#8220;map&#8221; - no correction is made, but finder images are taken for a pointing map.</li>
+<li>&#8220;finder&#8221; - the pointing is corrected using images taken with the finders.</li>
+</ul>
+
+<p>Using the science detectors to correct the pointing is not supported in this version of the language.</p>
+
+<p>The &lt;pointingcorrection&gt; member is optional. If no &lt;pointingcorrection&gt; member is specified, a value of &#8220;finder&#8221; is assumed.</p>
+
+<p><a name="targetcoordinates"/></p>
+
+<h3>&lt;targetcoordinates&gt;</h3>
+
+<p>The target coordinates member specifies the target coordinates.</p>
+
+<p>Syntactically, the target coordinates are a JSON &#8220;object&#8221;.</p>
+
+<p>There are three types of target coordinates objects: fixed equatorial targets; numbered minor planets; and named solar system bodies.</p>
+
+<h4>Fixed Equatorial Targets</h4>
+
+<p>For fixed equatorial targets, the structure of the target coordinates object is:</p>
+
+<pre><code> {
+   "type"    : "equatorial",
+   "alpha"   : &amp;lt;alpha&amp;gt;,
+   "delta"   : &amp;lt;delta&amp;gt;,
+   "equinox" : &amp;lt;equinox&amp;gt;
+ }
+</code></pre>
+
+<p>All of the members are obligatory.</p>
+
+<p>The &lt;alpha&gt; and &lt;delta&gt; values specify the right
+ascension and declination. The &lt;equinox&gt; value specifies the equinox as a Julian epoch (e.g., a decimal year number).</p>
+
+<p>Syntactically, the &lt;alpha&gt; and &lt;delta&gt; values are <a href="#Angles">angles</a> and the equinox argument is a number.</p>
+
+<p>Examples of valid target coordinates are:</p>
+
+<pre><code> {
+   "type"    : "equatorial",
+   "alpha"   : "01:02:03.04",
+   "delta"   : "-05:06:07.8",
+   "equinox" : 2000
+ }
+
+ {
+   "type"    : "equatorial",
+   "alpha"   : 123.45,
+   "delta"   : +47.89,
+   "equinox" : 2010.04
+ }
+</code></pre>
+
+<h4>Numbered Minor Planets</h4>
+
+<p>For numbered minor planet targets, the structure of the target coordinates object is:</p>
+
+<pre><code> {
+   "type"    : "solarsystembody",
+   "number"  : &amp;lt;number&amp;gt;
+ }
+</code></pre>
+
+<p>All of the members are obligatory.</p>
+
+<p>The &lt;number&gt; value specifies the number of the <a href="http://en.wikipedia.org/wiki/Minor_planet_designation">minor planet designation</a>.</p>
+
+<p>Syntactically, the &lt;number&gt; values is an integer.</p>
+
+<p>Examples of valid target coordinates are:</p>
+
+<pre><code> {
+   "type"    : "solarsystembody",
+   "number"  : 136199
+ }
+</code></pre>
+
+<h4>Named Solar System Bodies</h4>
+
+<p>For named solar system bodies, the structure of the target coordinates object is:</p>
+
+<pre><code> {
+   "type"    : "solarsystembody",
+   "name"    : &amp;lt;name&amp;gt;
+ }
+</code></pre>
+
+<p>All of the members are obligatory.</p>
+
+<p>The &lt;name&gt; value specifes the name of the body (e.g., the name part of the minor planet designation or the provisional designation of a minor planet).</p>
+
+<p>Syntactically, the &lt;name&gt; values is a string.</p>
+
+<p>Examples of valid target coordinates are:</p>
+
+<pre><code> {
+   "type"    : "solarsystembody",
+   "name"    : "Eris"
+ }
+
+
+ {
+   "type"    : "solarsystembody",
+   "name"    : "2013 VB12"
+ }
+</code></pre>
+
+<p><a name="constraints"/></p>
+
+<h3>&lt;constraints&gt;</h3>
+
+<p>The &lt;constraints&gt; value specifies constraint which must be satisfied at the start (TBC) of the visit.</p>
+
+<p>Syntactically, the &lt;constraints&gt; value is a JSON &#8220;object&#8221; with the following structure:</p>
+
+<pre><code> {
+   "maxskybrightness"  : &amp;lt;maxskybrightness&amp;gt;,
+   "mindate"           : &amp;lt;mindate&amp;gt;,
+   "maxdate"           : &amp;lt;maxdate&amp;gt;,
+   "minairmass"        : &amp;lt;minairmass&amp;gt;,
+   "maxairmass"        : &amp;lt;maxairmass&amp;gt;,
+   "minha"             : &amp;lt;minha&amp;gt;,
+   "maxha"             : &amp;lt;maxha&amp;gt;,
+   "minmoonseparation" : &amp;lt;minmoonseparation&amp;gt;,
+   "maxmoonseparation" : &amp;lt;maxmoonseparation&amp;gt;
+ }
+</code></pre>
+
+<p>The &lt;contraints&gt; value and all of its members are optional.</p>
+
+<h4>&lt;maxskybrightness&gt;</h4>
+
+<p>The &lt;maxskybrightness&gt; value specifies the maximum (brightest) sky brightness in which the visit should be started.</p>
+
+<p>Syntactically the &lt;maxskybrightness&gt; value is a string. Valid values are:</p>
+
+<ul>
+<li>&#8220;civiltwilight&#8221;</li>
+<li>&#8220;nauticaltwilight&#8221;</li>
+<li>&#8220;astronomicaltwilight&#8221;</li>
+<li>&#8220;bright&#8221;</li>
+<li>&#8220;grey&#8221;</li>
+<li>&#8220;dark&#8221;</li>
+</ul>
+
+<p>The default &lt;maxskybrightness&gt; value is &#8220;bright&#8221;.</p>
+
+<h4>&lt;mindate&gt;</h4>
+
+<p>The &lt;mindate&gt; value specifies the minimum (earliest) date on which the visit should be started.</p>
+
+<p>Syntactically, the &lt;mindate&gt; value is a <a href="#Date">date</a>.</p>
+
+<p>The default &lt;mindate&gt; value is the <a href="#preparationdate">preparation date</a>.</p>
+
+<h4>&lt;maxdate&gt;</h4>
+
+<p>The &lt;maxdate&gt; value specifies the maxumum (latest) date on which the visit should be started.</p>
+
+<p>Syntactically, the &lt;maxdate&gt; value is a date.</p>
+
+<p>The default &lt;maxdate&gt; value is one year after the <a href="#preparationdate">preparation date</a>.</p>
+
+<h4>&lt;minairmass&gt;</h4>
+
+<p>The &lt;minairmass&gt; value specifies the minimum airmass at which the visit should be started.</p>
+
+<p>Syntactically, the &lt;minairmass&gt; value is a number.</p>
+
+<p>The default &lt;minairmass&gt; value is 1.</p>
+
+<h4>&lt;maxairmass&gt;</h4>
+
+<p>The &lt;maxairmass&gt; value specifies the maximum airmass at which the visit should be started.</p>
+
+<p>Syntactically, the &lt;maxairmass&gt; value is a number.</p>
+
+<p>The default &lt;maxairmass&gt; value is 2.</p>
+
+<h4>&lt;minha&gt;</h4>
+
+<p>The &lt;minha&gt; value specifies the minimum (most eastern) HA at which the visit should be started.</p>
+
+<p>Syntactically, the &lt;minha&gt; value is an angle.</p>
+
+<p>The default &lt;minha&gt; value is &#8220;-5h&#8221; (TBC).</p>
+
+<h4>&lt;maxha&gt;</h4>
+
+<p>The &lt;maxha&gt; value specifies the maximum (most western) HA at which the visit should be started.</p>
+
+<p>Syntactically, the &lt;maxha&gt; value is an angle.</p>
+
+<p>The default &lt;maxha&gt; value is &#8220;+5h&#8221; (TBC).</p>
+
+<h4>&lt;minmoonseparation&gt;</h4>
+
+<p>The &lt;minmoonseparation&gt; value specifies the minimum separation between the target and the moon at which the visit should be started.</p>
+
+<p>Syntactically, the &lt;minmoonseparation&gt; value is an angle.</p>
+
+<p>The default &lt;minmoonseparation&gt; value is &#8220;15d&#8221;. </p>
+
+<h4>&lt;maxmoonseparation&gt;</h4>
+
+<p>The &lt;maxmoonseparation&gt; value specifies the maximum separation between the target and the moon at which the visit should be started.</p>
+
+<p>Syntactically, the &lt;maxmoonseparation&gt; value is an angle.</p>
+
+<p>The default &lt;maxmoonseparation&gt; value is &#8220;180d&#8221;. </p>
+
+<p><a name="secondaryoffset"/></p>
+
+<h3>&lt;secondaryoffset&gt;</h3>
+
+<p>The &lt;secondaryoffset&gt; value specifies the offset of the secondary from the current best focus position. It is useful for taking out-of-focus images.</p>
+
+<p>Syntactically, the &lt;secondaryoffset&gt; value is an integer.</p>
+
+<p>The default &lt;secondaryoffset&gt; value is 0.</p>
+
+<p><a name="repeatexposures"/></p>
+
+<h3>&lt;repeatexposures&gt;</h3>
+
+<p>The &lt;repeatexposures&gt; value specifies how many times the exposures specified by the &lt;exposures&gt; value should be repeated.</p>
+
+<p>Syntactically, the &lt;repeatexposures&gt; value is positive integer.</p>
+
+<p>The default &lt;repeatexposures&gt; value is 1.</p>
+
+<p>The sense of the repeat is as follows. The exposures specified by the &lt;exposures&gt; value are run as a block the number of times specified by &lt;repeatexposures&gt; value. For example, consider a visit with the following values:</p>
+
+<pre><code>   "repeatexposures"    : 3,
+   "exposures"          : [
+     ["rcenter", 0, 0, "i", "BU", 300, 0, 0, 0],
+     ["rcenter", 0, 0, "i", "BB", 200, 0, 0, 0],
+     ["rcenter", 0, 0, "i", "BV", 100, 0, 0, 0]
+   ]
+</code></pre>
+
+<p>In this visit, the instrument will take 9 exposures in this order: BU, BB, BV, BU, BB, BV, BU, BB, BV.</p>
+
+<p><a name="exposures"/></p>
+
+<h3>&lt;exposures&gt;</h3>
+
+<p>The &lt;exposures&gt; value describes how the science exposures should be taken. </p>
+
+<p>Syntactically, the &lt;exposures&gt; value is an array of one or more &lt;exposure&gt; values:</p>
+
+<pre><code> "exposures" : [
+   &amp;lt;exposure&amp;gt;,
+   &amp;lt;exposure&amp;gt;,
+   ...
+   &amp;lt;exposure&amp;gt;
+ ]
+</code></pre>
+
+<p>Exposures are taken in the order in which they appear in the array.</p>
+
+<h4>&lt;exposure&gt;</h4>
+
+<p>Each &lt;exposure&gt; value is an array of 9 values:</p>
+
+<pre><code> [
+   &amp;lt;aperture&amp;gt;, &amp;lt;eastoffset&amp;gt;, &amp;lt;northoffset&amp;gt;, 
+   &amp;lt;guidingmode&amp;gt;, 
+   &amp;lt;filter&amp;gt;, 
+   &amp;lt;C0-exposuretime&amp;gt;, &amp;lt;C1-exposuretime&amp;gt;, &amp;lt;C2-exposuretime&amp;gt;, &amp;lt;C3-exposuretime&amp;gt;
+ ]
+</code></pre>
+
+<h4>&lt;aperture&gt;</h4>
+
+<p>The &lt;aperture&gt; value names a position in the instrument focal plane. Prior to exposing, the telescope attempts to place this position &lt;eastoffset&gt; east and &lt;northoffset&gt; north of the target coordinates.</p>
+
+<p>Syntactically, the &lt;aperture&gt; value is a string. Valid values are:</p>
+
+<ul>
+<li>&#8220;rcenter&#8221;</li>
+<li>&#8220;icenter&#8221;</li>
+<li>&#8220;ricenter&#8221;</li>
+<li>&#8220;riZJcenter&#8221;</li>
+<li>&#8220;riYHcenter&#8221;</li>
+<li>&#8220;ZJcenter&#8221;</li>
+<li>&#8220;YHcenter&#8221;</li>
+</ul>
+
+<p>These apertures correspond to the nominal centers of the fields common to the named filters (e.g., &#8220;riZJcenter&#8221; corresponds to the nominal center of the field common to the &#8220;r&#8221;, &#8220;i&#8221;, &#8220;Z&#8221;, and &#8220;J&#8221; filters).</p>
+
+<h4>&lt;eastoffset&gt;</h4>
+
+<p>Prior to exposing, the telescope attempts to place the aperture &lt;eastoffset&gt; east of the target coordinates.</p>
+
+<p>The east offset is measured on the sky (i.e., it does not depend on the declination).</p>
+
+<p>Syntactically, the &lt;eastoffset&gt; value is an <a href="#Angles">angle</a>.</p>
+
+<h4>&lt;northoffset&gt;</h4>
+
+<p>Prior to exposing, the telescope attempts to place the aperture &lt;northoffset&gt; north of the target coordinates.</p>
+
+<p>Syntactically, the &lt;northoffset&gt; value is an <a href="#Angles">angle</a>.</p>
+
+<h4>&lt;guidingmode&gt;</h4>
+
+<p>The &lt;guidingmode&gt; value specifies how the telescope will be guided. </p>
+
+<p>Syntactically, the &lt;guidingmode&gt; value is a string. Valid values are:</p>
+
+<ul>
+<li>&#8220;none&#8221; - no guiding, just tracking</li>
+<li>&#8220;finder&#8221; - guiding using the finders</li>
+<li>&#8220;C0&#8221; - guiding using the C0 CCD</li>
+<li>&#8220;C1&#8221; - guiding using the C1 CCD</li>
+</ul>
+
+<p>If the &lt;guidingmode&gt; value is &#8220;C0&#8221;, the filter argument must be &#8220;r&#8221;.</p>
+
+<p>We anticipate that most observations will use the finders for guiding. The C0 and C1 CCDs are useful when one wants to take long exposures with the other CCD (i.e., long exposures with C0 and guide with C1 or long exposures with C1 and guide with C0).</p>
+
+<h4>&lt;filter&gt;</h4>
+
+<p>The &lt;filter&gt; value specifies the filter to be used for the exposure with the C0 CCD. </p>
+
+<p>Syntactically, the &lt;filter&gt; value is a string. Valid values include:</p>
+
+<ul>
+<li>&#8220;u&#8221; &#8212; SDSS <i>u</i></li>
+<li>&#8220;g&#8221; &#8212; SDSS <i>g</i></li>
+<li>&#8220;r&#8221; &#8212; SDSS <i>r</i></li>
+<li>&#8220;BU&#8221; &#8212; Bessell <i>U</i></li>
+<li>&#8220;BB&#8221; &#8212; Bessell <i>B</i></li>
+<li>&#8220;BV&#8221; &#8212; Bessell <i>V</i></li>
+<li>&#8220;Su&#8221; &#8212; Strömgren <i>u</i></li>
+<li>&#8220;Sv&#8221; &#8212; Strömgren <i>v</i></li>
+<li>&#8220;Sb&#8221; &#8212; Strömgren <i>b</i></li>
+<li>&#8220;Sy&#8221; &#8212; Strömgren <i>y</i></li>
+<li>&#8220;Cn&#8221; &#8212; Crawford Narrow Hβ</li>
+<li>&#8220;Cw&#8221; &#8212; Crawford Wide Hβ</li>
+<li>&#8220;Gi&#8221; &#8212; Thuan-Gunn <i>i</i></li>
+<li>&#8220;4270/38&#8221; &#8212; Blue continuum (series I)</li>
+<li>&#8220;5016/51&#8221; &#8212; [O III] (series I)</li>
+<li>&#8220;5050/50&#8221; &#8212; Red continuum (series I)</li>
+<li>&#8220;6459/102&#8221; &#8212; Red continuum (extragalactic series)</li>
+<li>&#8220;6573/15&#8221; &#8212; Hα CWL=6572.5 Å FWHM = 15 Å</li>
+<li>&#8220;6580/19&#8221; &#8212; Hα CWL=6579.6 Å FWHM = 19 Å</li>
+<li>&#8220;6630/40&#8221; &#8212; Red continuum (series I)</li>
+<li>&#8220;6690/91&#8221; &#8212; Red-shifted Hα (extragalactic series)</li>
+</ul>
+
+<h4>&lt;C0-exposuretime&gt;</h4>
+
+<p>The &lt;C0-exposuretime&gt; value specifies the exposure time for the C0 CCD in seconds.</p>
+
+<p>Syntactically, the &lt;C0-exposuretime&gt; value is a number or the string &#8220;none&#8221;.</p>
+
+<p>If no exposure is desired or if the &#8220;r&#8221; CCD is being used for guiding (i.e., &lt;guidingmode&gt; is &#8220;r&#8221;), &lt;C0-exposuretime&gt; value should be &#8220;none&#8221;.</p>
+
+<p>There may be restrictions TBD on the &lt;C0-exposuretime&gt; value.</p>
+
+<h4>&lt;C1-exposuretime&gt;</h4>
+
+<p>The &lt;C1-exposuretime&gt; value specifies the exposure time for the C1 CCD in seconds.</p>
+
+<p>Syntactically, the &lt;C1-exposuretime&gt; value is a number or the string &#8220;none&#8221;.</p>
+
+<p>If no exposure is desired or if the C1 CCD is being used for guiding (i.e., &lt;guidingmode&gt; is &#8220;C1&#8221;), &lt;C1-exposuretime&gt; value should be &#8220;none&#8221;.</p>
+
+<p>There may be restrictions TBD on the &lt;C1-exposuretime&gt; value.</p>
+
+<h4>&lt;C2-exposuretime&gt;</h4>
+
+<p>The &lt;C2-exposuretime&gt; value specifies the exposure time for the C2 (&#8220;ZY&#8221;) H2RG in seconds.</p>
+
+<p>Syntactically, the &lt;C2-exposuretime&gt; value is a number or the string &#8220;none&#8221;.</p>
+
+<p>If no exposure is desired, &lt;C2-exposuretime&gt; value should be &#8220;none&#8221;.</p>
+
+<p>There may be restrictions TBD on the &lt;C2-exposuretime&gt; value.</p>
+
+<h4>&lt;C3-exposuretime&gt;</h4>
+
+<p>The &lt;C3-exposuretime&gt; value specifies the exposure time for the C3 (&#8220;JH&#8221;) H2RG in seconds.</p>
+
+<p>Syntactically, the &lt;C3-exposuretime&gt; value is a number or the string &#8220;none&#8221;.</p>
+
+<p>If no exposure is desired, &lt;C3-exposuretime&gt; value should be &#8220;none&#8221;.</p>
+
+<p>There may be restrictions TBD on the &lt;C3-exposuretime&gt; value.</p>
+
+<hr/>
+
+<p><a name="examples"/></p>
+
+<h2>Examples</h2>
+
+<p><a name="example-1"/></p>
+
+<h3>Example 1</h3>
+
+<p>This visit description file specifies a single visit.</p>
+
+<p>In the visit, ten 60-second exposures will be taken using &#8220;r&#8221;, &#8220;i&#8221;, &#8220;Z&#8221;, &#8220;Y&#8221;, &#8220;J&#8221;, and &#8220;H&#8221;, half with the target in the combined field of the &#8220;r&#8221;, &#8220;i&#8221;, &#8220;Z&#8221;, and &#8220;J&#8221; filters and half with the target in the combined field of the &#8220;r&#8221;, &#8220;i&#8221; &#8220;Y&#8221;, and &#8220;H&#8221; filters. The exposures will be dithered on a cross, with each arm of the cross being 10 arcsec long.</p>
+
+<p>No specific constraints are given. </p>
+
+<p>The finders will be used for both the pointing correction and guiding.</p>
+
+<pre><code> // Example 1.
+ [
+ {
+   "languageversion"    : "20120808",
+   "proposalidentifier" : "1",
+   "visitidentifier"    : "1",
+   "preparationdate"    : "20120229",
+   "targetcoordinates"  : {
+     "type"             : "equatorial",
+     "alpha"            : "01:02:03.04",
+     "delta"            : "+05:06:07.08",
+     "equinox"          : 2000
+   },
+   "exposures"          : [
+     ["riZJcenter",   "0as",   "0as", "finder", "r", 60, 60, 60, 60],
+     ["riYHcenter",   "0as",   "0as", "finder", "r", 60, 60, 60, 60],
+     ["riZJcenter",   "0as", "+10as", "finder", "r", 60, 60, 60, 60],
+     ["riYHcenter",   "0as", "+10as", "finder", "r", 60, 60, 60, 60],
+     ["riZJcenter",   "0as", "-10as", "finder", "r", 60, 60, 60, 60],
+     ["riYHcenter",   "0as", "-10as", "finder", "r", 60, 60, 60, 60],
+     ["riZJcenter", "+10as",   "0as", "finder", "r", 60, 60, 60, 60],
+     ["riYHcenter", "+10as",   "0as", "finder", "r", 60, 60, 60, 60],
+     ["riZJcenter", "-10as",   "0as", "finder", "r", 60, 60, 60, 60],
+     ["riYHcenter", "-10as",   "0as", "finder", "r", 60, 60, 60, 60]
+   ]
+ }
+ ]
+</code></pre>
+
+<p><a name="example-2"/></p>
+
+<h3>Example 2</h3>
+
+<p>This visit description file specifies a single visit.</p>
+
+<p>The visit consists of 16 exposures of 300 seconds each, 4 in each of Strömgren //u//, //v//, //b//, and //y//. The exposures are all taken with the same pointing. No H2RG exposures are requested.</p>
+
+<p>The visit must start in dark time and within 3 hours of the meridian.</p>
+
+<p>The finders are used for the pointing correction, but the C1 CCD is used for guiding.</p>
+
+<pre><code> // Example 2.
+ [
+ {
+   "languageversion"    : "20120808",
+   "proposalidentifier" : "2",
+   "visitidentifier"    : "1",
+   "preparationdate"    : "20110117T2346",
+   "objectname"         : "SAO Something Or Other",
+   "visitname"          : "Example uvby visit",
+   "pointingcorrection" : "finder",
+   "constraints"        : {
+     "maxskybrightness" : "dark",
+     "minha"            : "-3h",
+     "maxha"            : "+3h"
+   },
+   "targetcoordinates"  : {
+     "type"             : "equatorial",
+     "alpha"            : "01:02:03.04",
+     "delta"            : "+05:06:07.08",
+     "equinox"          : 2000
+   },
+   "repeatexposures"    : 2,
+   "exposures"          : [
+     ["rcenter", "0", "0", "C1", "Su", 300, "none", "none", "none"],
+     ["rcenter", "0", "0", "C1", "Sv", 300, "none", "none", "none"],
+     ["rcenter", "0", "0", "C1", "Sb", 300, "none", "none", "none"],
+     ["rcenter", "0", "0", "C1", "Sy", 300, "none", "none", "none"],
+     ["rcenter", "0", "0", "C1", "Sy", 300, "none", "none", "none"],
+     ["rcenter", "0", "0", "C1", "Sb", 300, "none", "none", "none"],
+     ["rcenter", "0", "0", "C1", "Sv", 300, "none", "none", "none"],
+     ["rcenter", "0", "0", "C1", "Su", 300, "none", "none", "none"]
+   ]
+ }
+ ]
+</code></pre>
+
+<p><a name="example-3"/></p>
+
+<h3>Example 3</h3>
+
+<p>This visit description file specifies a single visit.</p>
+
+<p>The visit consists of four exposures of 900 seconds each, one in each of SDSS &#8220;u&#8221;, &#8220;g&#8221;, &#8220;r&#8221;, and &#8220;i&#8221;. The exposures are all taken with the same pointing. No H2RG exposures are requested.</p>
+
+<p>The visit must start in dark time and with an airmass of 1.5 or less.</p>
+
+<p>The finders are used for the pointing correction, but the C1 CCD is used for guiding the exposures in &#8220;u&#8221;, &#8220;g&#8221;, and C0 CCD is used for guiding the exposure in &#8220;i&#8221;.</p>
+
+<pre><code> // Example 3.
+ [
+ {
+   "languageversion"    : "20120808",
+   "proposalidentifier" : "3",
+   "visitidentifier"    : 1,
+   "preparationdate"    : "20110117T2346",
+   "objectname"         : "NGC Something Or Other",
+   "visitname"          : "Test ugri visit",
+   "pointingcorrection" : "finder",
+   "targetcoordinates"  : {
+     "type"             : "equatorial",
+     "alpha"            : "01:02:03.04",
+     "delta"            : "+05:06:07.08",
+     "equinox"          : 2009.5
+   },
+   "constraints"        : {
+     "maxskybrightness" : "dark",
+     "maxairmass"       : 1.5
+   },
+   "exposures"          : [
+     ["ricenter", 0, 0, "C1", "u", 900, "none", "none", "none"],
+     ["ricenter", 0, 0, "C1", "g", 900, "none", "none", "none"],
+     ["ricenter", 0, 0, "C1", "r", 900, "none", "none", "none"],
+     ["ricenter", 0, 0, "C0", "r", "none", 900, "none", "none"]
+   ]
+ }
+ ]
+</code></pre>
+
+<p><a name="example-4"/></p>
+
+<h3>Example 4</h3>
+
+<p>This visit description file specifies three visits.</p>
+
+<p>Each visit consists of one exposure of 300 seconds in Johnson &#8220;U&#8221;, one exposure of 200 seconds in Johnson &#8220;B&#8221;, and one exposure of 100 seconds in Johnson &#8220;V&#8221;. The exposures are all taken with the same pointing. No H2RG exposures are requested.</p>
+
+<p>The visits are constrained to occur on three consecutive nights. The first visit must take place between 2011 May 26 20:00:00 UTC and 2011 May 27 20:00:00 UTC, the second time between 2011 May 27 20:00:00 UTC and 2011 May 28 20:00:00 UTC, and the third between 2011 May 28 20:00:00 UTC and 2011 May 29 20:00:00 UTC. (Remember that 20:00 UTC is in the middle of the day at SPM.)</p>
+
+<p>The finders are used for the pointing correction, but C1 CCD is used for guiding.</p>
+
+<pre><code> // Example 4.
+ [
+ {
+   "languageversion"    : "20120808",
+   "proposalidentifier" : "4",
+   "visitidentifier"    : 1,
+   "preparationdate"    : "20110425",
+   "visitname"          : "First visit",
+   "pointingcorrection" : "finder",
+   "targetcoordinates"  : {
+     "type"             : "equatorial",
+     "alpha"            : "12:23:11.1",
+     "delta"            : "-10:22:13.6",
+     "equinox"          : 2000
+   },
+   "constraints"        : {
+     "mindate"          : "20110526T20",
+     "maxdate"          : "20110527T20"
+   },
+   "exposures"          : [
+     ["rcenter", 0, 0, "C1", "U", 300, "none", "none", "none"],
+     ["rcenter", 0, 0, "C1", "B", 200, "none", "none", "none"],
+     ["rcenter", 0, 0, "C1", "V", 100, "none", "none", "none"]
+   ]
+ },
+ {
+   "languageversion"    : "20120808",
+   "proposalidentifier" : "4",
+   "visitidentifier"    : 2,
+   "preparationdate"    : "20110425",
+   "visitname"          : "Second visit",
+   "pointingcorrection" : "finder",
+   "targetcoordinates"  : {
+     "type"             : "equatorial",
+     "alpha"            : "12:23:11.1",
+     "delta"            : "-10:22:13.6",
+     "equinox"          : 2000
+   },
+   "constraints"        : {
+     "mindate"          : "20110527T20",
+     "maxdate"          : "20110528T20"
+   },
+   "exposures"          : [
+     ["rcenter", 0, 0, "C1", "U", 300, "none", "none", "none"],
+     ["rcenter", 0, 0, "C1", "B", 200, "none", "none", "none"],
+     ["rcenter", 0, 0, "C1", "V", 100, "none", "none", "none"]
+   ]
+ },
+ {
+   "languageversion"    : "20120808",
+   "proposalidentifier" : "4",
+   "visitidentifier"    : 3,
+   "preparationdate"    : "20110425",
+   "visitname"          : "Third visit",
+   "pointingcorrection" : "finder",
+   "targetcoordinates"  : {
+     "type"             : "equatorial",
+     "alpha"            : "12:23:11.1",
+     "delta"            : "-10:22:13.6",
+     "equinox"          : 2000
+   },
+   "constraints"        : {
+     "mindate"          : "20110528T20",
+     "maxdate"          : "20110529T20"
+   },
+   "exposures"          : [
+     ["rcenter", 0, 0, "C1", "U", 300, "none", "none", "none"],
+     ["rcenter", 0, 0, "C1", "B", 200, "none", "none", "none"],
+     ["rcenter", 0, 0, "C1", "V", 100, "none", "none", "none"]
+   ]
+ }
+ ]
+</code></pre>
+</div>
+<div id="footer">
+<hr/>
+<p><a href="/index.html">Home</a> | <a href="/contact.html">Contact</a> | <a href="/search.html">Search</a></p>
+
+<p>Copyright © 2012-2020 <a href="mailto:alan@astro.unam.mx">Alan M. Watson</a>.</p>
+</div>
+</body>
+</html>

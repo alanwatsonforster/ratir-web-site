@@ -1,0 +1,46 @@
+###############################################################################
+
+all			:	
+	$(MAKE) all-dependencies 
+	$(MAKE) all-htmls 
+	$(MAKE) all-permissions
+
+check			:
+	$(TOOLSDIR)/make-validators $(SITE) $(HTMLS) >/tmp/check.html
+
+clean			:	
+	$(MAKE) clean-htmls 
+	$(MAKE) clean-dependencies
+
+###############################################################################
+
+all-dependencies	:	Makefile.dependencies
+
+clean-dependencies	:
+	rm -f Makefile.dependencies
+
+Makefile.dependencies	:	Makefile
+	rm -f Makefile.dependencies
+	echo "# This file is generated automatically. Do not edit manually." >Makefile.dependencies
+	for html in $(HTMLS); do echo "$$html: $$(dirname "$$html")/$$(basename "$$html" html)md \$$(EXTRA_HTML_DEPENDENCIES)" ; done >>Makefile.dependencies
+
+###############################################################################
+
+all-htmls		:	$(HTMLS)
+
+clean-htmls		:
+	rm -f $(HTMLS)
+
+.SUFFIXES		:	.md	
+.SUFFIXES		:	.html
+.md.html		:
+	$(TOOLSDIR)/make-html $*.md
+
+###############################################################################
+
+all-permissions		:
+	chmod go=rx .
+	#chmod -f go= Makefile* Guide *.md *.meta
+	chmod go=r *.css *.html
+
+

@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link rel="stylesheet" href="style.css" type="text/css"/>
+<meta name=viewport content="width=device-width, initial-scale=1">
+<title>
+RATIR: Data Archive
+</title>
+</head>
+<body>
+<div id="header">
+<p><a href="/index.html">Home</a> | <a href="/contact.html">Contact</a> | <a href="/search.html">Search</a></p>
+<hr/>
+<h1>RATIR: Data Archive</h1>
+<hr/>
+</div>
+<div id="main">
+<ul>
+<li><a href="#servers">Servers</a></li>
+<li><a href="#access">Access</a></li>
+<li><a href="#contents">Contents</a></li>
+<li><a href="#log-files">Log Files</a></li>
+<li><a href="#proposal-identifier-files">Proposal Identifier Files</a></li>
+<li><a href="#public-image-files">Public Image Files</a></li>
+<li><a href="#proprietary-image-files">Proprietary Image Files</a></li>
+<li><a href="#examples">Examples</a></li>
+</ul>
+
+<p><hr/>
+<a name="servers"/></p>
+
+<h2>Servers</h2>
+
+<p>The data archive is available from</p>
+
+<ul>
+<li>ratir.astroscu.unam.mx</li>
+<li>mira.la.asu.edu</li>
+</ul>
+
+<p>The examples below use ratir.astroscu.unam.mx, but you could equally use one of the other servers.</p>
+
+<p><hr/>
+<a name="access"/></p>
+
+<h2>Access</h2>
+
+<p>The data archive is accessed using the <a href="http://rsync.samba.org">rsync</a> program, which is installed by default on Mac OS X and Ubuntu. If it isn&#8217;t installed on your computer, consult your computer support staff.</p>
+
+<p><hr/>
+<a name="contents"/></p>
+
+<h2>Contents</h2>
+
+<p>The data archive contains the following files:</p>
+
+<ul>
+<li>log files;</li>
+<li>proposal identifier files;</li>
+<li>image header files; and</li>
+<li>image FITS files. </li>
+</ul>
+
+<p>The image header files are the FITS headers with newlines inserted every 80 characters.</p>
+
+<p>The image FITS and header files are named for the UTC time of the start of the exposure (as an <a href="https://en.wikipedia.org/wiki/ISO_8601">IS0-8601</a> basic combined date and time), followed by the detector identifier (“C0”, “C1”, “C2”, “C3”, or “C4”), followed by a letter indicating the image type (“o” for object images, “b” for biases, “d” for darks, and “f” for flats).</p>
+
+<p>The image FITS files are compressed losslessly using <a href="http://en.wikipedia.org/wiki/Bzip2">bzip2</a> and can be uncompressed using the bunzip2 program, which is installed by default on Mac OS X and Ubuntu. If it isn&#8217;t installed on your computer, consult your computer support staff.</p>
+
+<p><hr/>
+<a name="log-files"/></p>
+
+<h2>Log Files</h2>
+
+<p>The log files list all science and calibration images take by the instrument in chronological order.</p>
+
+<p>The log files are available as a plain text file with fixed-width column (for humans) and a <a href="http://en.wikipedia.org/wiki/Comma-separated_values">CSV file</a> (for spreadsheets and other programs). </p>
+
+<p>To obtain the log files, use:</p>
+
+<pre><code>rsync rsync://ratir.astroscu.unam.mx/public/log.txt .
+</code></pre>
+
+<p>or</p>
+
+<pre><code>rsync rsync://ratir.astroscu.unam.mx/public/log.csv .
+</code></pre>
+
+<p>In both files, the columns are:</p>
+
+<ol>
+<li>The UTC date and time of the start of the exposure.</li>
+<li>The proposal identifier.</li>
+<li>The visit identifier.</li>
+<li>The name of the image FITS file.</li>
+<li>The camera (C0, C1, C2, or C3).</li>
+<li>The image type (object, bias, dark, flat).</li>
+<li>The exposure time, in seconds.</li>
+<li>The filter name.</li>
+<li>The J2000 RA at the start of the exposure, in degrees.</li>
+<li>The J2000 declination at the start of the exposure, in degrees.</li>
+<li>The hour angle at the start of the exposure, in degrees.</li>
+<li>The airmass at the start of the exposure.</li>
+<li>Whether the data is public (&#8220;true&#8221;) or not (&#8220;false&#8221;).</li>
+</ol>
+
+<p>In both files, the rows are ordered by the date and time of the start of the exposure.</p>
+
+<p>The log files contain only limited information on the images; for more detailed information, you can download the public image header files.</p>
+
+<p><hr/>
+<a name="proposal-identifier-files"/></p>
+
+<h2>Proposal Identifier Files</h2>
+
+<p>The proposal identifier files list all science and calibration proposal identifiers.</p>
+
+<p>The proposal identifier files as a plain text file with fixed-width column (for humans) and a <a href="http://en.wikipedia.org/wiki/Comma-separated_values">CSV file</a> (for spreadsheets and other programs). </p>
+
+<p>To obtain the proposal identifier files, use:</p>
+
+<p>rsync rsync://ratir.astroscu.unam.mx/public/proposalidentifiers.txt .</p>
+
+<p>or</p>
+
+<p>rsync rsync://ratir.astroscu.unam.mx/public/proposalidentifiers.csv .</p>
+
+<p>In both files, the columns are:</p>
+
+<ol>
+<li>The proposal identifier.</li>
+<li>Whether the data have a proprietary period (&#8220;true&#8221;) or not (&#8220;false&#8221;).</li>
+<li>The name of the PI.</li>
+<li>The title of the proposal.</li>
+</ol>
+
+<p><hr/>
+<a name="public-image-files"/></p>
+
+<h2>Public Image Files</h2>
+
+<p>Public image files are:</p>
+
+<ul>
+<li>All image FITS files from calibration proposals.</li>
+<li>All image FITS files from science proposals after the propriety period of two years.</li>
+<li>All image header files, even those from science proposals during the propriety period of two years.</li>
+</ul>
+
+<p>Anyone can obtain public files using:</p>
+
+<pre><code>rsync -av rsync://ratir.astroscu.unam.mx/public/&amp;lt;proposalid&amp;gt; .
+</code></pre>
+
+<p>The files organized into directories as:</p>
+
+<p>&lt;proposalid&gt;/&lt;visitid&gt;/&lt;file&gt;</p>
+
+<p>in which &lt;proposalid&gt; is a proposal identifier and &lt;visitid&gt; is a visit identifier.</p>
+
+<p><hr/>
+<a name="proprietary-image-files"/></p>
+
+<h2>Proprietary Image Files</h2>
+
+<p>Proprietary image files are:</p>
+
+<ul>
+<li>All image FITS files from science proposals during the propriety period of two years.</li>
+</ul>
+
+<p>Science proposal PIs can access all files obtained for their proposals (both proprietary files and public files) using:</p>
+
+<pre><code>rsync -av rsync://&lt;proposalid&gt;@ratir.astroscu.unam.mx/&lt;proposalid&gt; .
+</code></pre>
+
+<p>Here, &lt;proposalid&gt; is a proposal identifier. rsync will prompt for a password. This password will be distributed to the PI by Carlos Román (<a href="croman@astro.unam.mx">croman@astro.unam.mx</a>). The PIs can then distribute the password as they wish.</p>
+
+<p>The files organized into directories as:</p>
+
+<p>&lt;proposalid&gt;/&lt;visitid&gt;/&lt;file&gt;</p>
+
+<p>in which &lt;proposalid&gt; is a proposal identifier and &lt;visitid&gt; is a visit identifier.</p>
+
+<p><hr/>
+<a name="examples"/></p>
+
+<h2>Examples</h2>
+
+<p>To obtain all image files for proposal 2017A-1003:</p>
+
+<pre><code>rsync -av rsync://2017A-1003@ratir.astroscu.unam.mx/2017A-1003 .
+</code></pre>
+
+<p>To obtain all image files for 2017 March 12 UTC for proposal 2017A-1003:</p>
+
+<pre><code>rsync -av rsync://2017A-1003@ratir.astroscu.unam.mx/2017A-1003/2017A-1003/2017A-1003/*/20170312* .
+</code></pre>
+
+<p>To obtain all image files for 2017 March 12 UTC and visit whose visit identifier (specified in <a href="phase2.html">Phase 2</a>) is &#8220;4&#8221; for proposal 2017A-1003:</p>
+
+<pre><code>rsync -av rsync://2017A-1003@ratir.astroscu.unam.mx/2017A-1003/2017A-1003/4/20170312* .
+</code></pre>
+
+<p>One useful tip for using rsync is that if you do not give it a destination location, then it will list the files at the specified source locations rather than copying them. This allows you to quickly see what given rsync options do. For example, if the final &#8220;.&#8221; is omitted from the previous commands, they will list the files in the archive rather than download them.</p>
+</div>
+<div id="footer">
+<hr/>
+<p><a href="/index.html">Home</a> | <a href="/contact.html">Contact</a> | <a href="/search.html">Search</a></p>
+
+<p>Copyright © 2017–2022 <a href="mailto:alan@astro.unam.mx">Alan M. Watson</a>.</p>
+</div>
+</body>
+</html>

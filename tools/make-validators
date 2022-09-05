@@ -1,0 +1,82 @@
+#!/bin/sh
+
+set -x
+
+BASEURL=$1
+shift
+
+cat <<"EOF"
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8"></meta>
+<title>Validators</title>
+</head>
+<body>
+<h1>Validators</h1>
+<table>
+EOF
+
+for HTML in "$@"
+do
+	echo "$HTML:" 1>&2
+  ENCODEDURL=$(
+    /bin/echo "$BASEURL$HTML" |
+    sed '
+      s/:/%3A/g
+      s/\//%2F/g
+    '
+  )
+  cat <<EOF
+<tr>
+<td>$HTML</td>
+<td><a href="$BASEURL$HTML">Visit</a></td>
+<td><a href="http://validator.w3.org/check?uri=$ENCODEDURL">Validate XHTML</a></td>
+<td><a href="http://jigsaw.w3.org/css-validator/validator?uri=$ENCODEDURL">Validate CSS</a></td>
+<td><a href="http://validator.w3.org/checklink/checklink?uri=$ENCODEDURL">Validate Links</a></td>
+</tr>
+EOF
+done
+
+exit
+cat <<"EOF"
+</table>
+</body>
+</html>
+EOF
+
+exit
+
+site="$1"
+escapedsite=$(echo "$site" | sed "s=:=%3A=g;s=/=%2F=g")
+
+mkdir -p /tmp/validators
+
+(
+  echo "<html>"
+  echo "<head>"
+  echo "<title>Validators for $site</title>"
+	echo "</head>"
+	echo "<body>"
+	(
+		echo "# Validators for $site"
+		echo
+		echo "## HTML"
+		for file in *.html
+		do
+	  	url="http://validator.w3.org/check?uri=$escapedsite$file"
+			echo "-  [$file]($url)"
+		done
+		echo
+		echo "## CSS"
+		for file in *.css
+		do
+			echo "- [$file](http://jigsaw.w3.org/css-validator/validator?uri=$escapedsite$file&profile=css21&usermedium=all&warning=1)"
+		done
+	) | Markdown.pl /dev/stdin 
+	echo "</body>"
+	echo "</html>"
+) >/tmp/validators/$escapedsite.html
+open /tmp/validators/$escapedsite.html
